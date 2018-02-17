@@ -10,28 +10,37 @@ from imglatex import imglatex
 from imglatex import cli
 
 
-@pytest.fixture
-def response():
-    """Sample pytest fixture.
-
-    See more at: http://doc.pytest.org/en/latest/fixture.html
-    """
-    # import requests
-    # return requests.get('https://github.com/audreyr/cookiecutter-pypackage')
+@pytest.mark.parametrize('path', [
+    'something.png', 'somethingelse.jpg'
+])
+def test_supported_images(path):
+    assert imglatex.is_supported(path)
 
 
-def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument."""
-    # from bs4 import BeautifulSoup
-    # assert 'GitHub' in BeautifulSoup(response.content).title.string
+@pytest.mark.parametrize('path', [
+    'something.pdf', 'somethingelse.docx'
+])
+def test_not_supported_images(path):
+    assert not imglatex.is_supported(path)
+
+
+def test_grabbing_caption():
+    image = imglatex.Image('something/the-image.png')
+    assert image.caption == 'the image'
+
+
+@pytest.mark.parametrize('img,should_float', [
+    ('something/the-image.png', True),
+    ('something/the-image-no-identificada.png', False),
+])
+def test_grabbing_caption(img, should_float):
+    image = imglatex.Image(img)
+    assert image.should_float == should_float
 
 
 def test_command_line_interface():
     """Test the CLI."""
     runner = CliRunner()
-    result = runner.invoke(cli.main)
-    assert result.exit_code == 0
-    assert 'imglatex.cli.main' in result.output
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output

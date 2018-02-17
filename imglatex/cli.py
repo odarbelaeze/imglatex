@@ -2,13 +2,17 @@
 
 import click
 
+from imglatex.imglatex import find_images, Image
+
 
 @click.command()
-def main(args=None):
+@click.argument('path', type=click.Path(exists=True))
+def main(path: click.Path):
     """Console script for imglatex."""
     click.echo("Replace this message by putting your code into "
                "imglatex.cli.main")
     click.echo("See click documentation at http://click.pocoo.org/")
+    click.echo('\n'.join(str(Image(i)) for i in find_images(path)))
     return 0
 
 
