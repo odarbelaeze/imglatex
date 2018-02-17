@@ -27,8 +27,9 @@ def find_images(path: str):
 
 
 class Image:
-    def __init__(self, path: str):
+    def __init__(self, path: str, prefix: str):
         self.path = path
+        self.prefix = prefix
         self.caption = self._grab_caption(path)
 
     @staticmethod
@@ -43,12 +44,13 @@ class Image:
         Should the image be rendered as a float or as just a
         standalone image.
         """
-        return 'no identificada' not in self.caption
+        return 'no identificada' not in self.caption and self.caption[0].isnumeric()
 
     @property
     def lyxpath(self):
         path, _ = os.path.splitext(self.path)
-        return path.replace('.', '\lyxdot')
+        scaped = path.replace('.', '\lyxdot')
+        return os.path.join(self.prefix, scaped)
 
     @property
     def slug(self):
@@ -56,9 +58,10 @@ class Image:
 
     @property
     def template(self):
+        kind = 'figure' if self.should_float else 'image'
         path = os.path.join(
             os.path.dirname(__file__),
-            'templates/figure.tex'
+            f'templates/{kind}.tex'
         )
         with open(path) as inp:
             template_string = inp.read()
@@ -90,4 +93,4 @@ class Document:
         return Template(template_string)
 
     def latex(self):
-        return self.template.render(images=self.images)
+        return self.template.render(images=sorted(self.images, key=lambda i: i.caption))
