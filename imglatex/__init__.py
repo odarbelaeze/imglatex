@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Top-level package for Image to LaTeX."""
 
 __author__ = """Oscar Arbelaez"""
