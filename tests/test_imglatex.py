@@ -30,10 +30,10 @@ def test_grabbing_caption():
 
 
 @pytest.mark.parametrize('img,should_float', [
-    ('something/the-image.png', True),
+    ('something/1.1the-image.png', True),
     ('something/the-image-no-identificada.png', False),
 ])
-def test_grabbing_caption(img, should_float):
+def test_should_float(img, should_float):
     image = imglatex.Image(img)
     assert image.should_float == should_float
 
@@ -43,4 +43,4 @@ def test_command_line_interface():
     runner = CliRunner()
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
-    assert '--help  Show this message and exit.' in help_result.output
+    assert 'Show this message and exit.' in help_result.output
