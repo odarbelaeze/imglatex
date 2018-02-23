@@ -29,7 +29,7 @@ test_requirements = [
 
 setup(
     name='imglatex',
-    version='0.1.0',
+    version='0.2.0',
     description="Turns a folder full of images into a LaTeX file that contains them as figures with captions.",
     long_description=readme + '\n\n' + history,
     author="Oscar Arbelaez",
