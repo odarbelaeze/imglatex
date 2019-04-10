@@ -13,7 +13,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     'Click>=6.0',
-    'Jinja2==2.10',
+    'Jinja2>=2.10.1,<3',
     # TODO: Put package requirements here
 ]
 

@@ -52,7 +52,7 @@ class Image:
     @property
     def lyxpath(self):
         path, _ = os.path.splitext(self.path)
-        scaped = path.replace('.', '\lyxdot')
+        scaped = path.replace('.', r'\lyxdot')
         return os.path.join(self.prefix, scaped)
 
     @property
